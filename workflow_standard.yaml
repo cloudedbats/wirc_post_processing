@@ -1,0 +1,76 @@
+# Workflow defined in YAML.
+---
+workflow:
+  - tool_id: source_files
+    description: Get list of video files.
+    input_from: # None
+    input_format: # None
+    input_queue_size: 10
+    tool: SourceFiles
+    parameters:
+      source_dir: ./wirc_recordings/
+      # path_glob_string: "**/*.mp4"
+      path_glob_string: "**/rpi-cam0_*.mp4"
+      # path_glob_string: "**/rpi-cam1_*.mp4"
+      # path_glob_string: "**/usb-cam0_*.mp4"
+      # path_glob_string: "**/usb-cam1_*.mp4"
+    output_formats:
+      - source_file
+
+  - tool_id: read_video
+    description: Read video file.
+    input_from: source_files
+    input_format: source_file
+    input_queue_size: 10
+    tool: ReadVideo
+    parameters:
+      todo: TODO
+    output_formats:
+      - video_frame
+
+  - tool_id: frame_scanner
+    description: Frame scanner.
+    input_from: read_video
+    input_format: video_frame
+    input_queue_size: 10
+    tool: FrameScanner
+    parameters:
+      kernel_size: 5
+      min_contour_area: 50
+      max_contour_area: 5000
+      text_info: true
+      font_scale: 1.0
+      # font_scale: 0.75
+    output_formats:
+      - video_frame
+
+  - tool_id: save_video
+    description: Save video.
+    # input_from: extract_movements
+    input_from: frame_scanner
+    input_format: video_frame
+    input_queue_size: 10
+    tool: SaveVideo
+    parameters:
+      target_dir: ./video_target
+    output_formats: None
+
+  - tool_id: save_diagram
+    description: Save as diagram.
+    input_from: frame_scanner
+    input_format: video_frame
+    input_queue_size: 10
+    tool: SaveDiagram
+    parameters:
+      target_dir: ./video_target/diagrams
+    output_formats: None
+
+  # - tool_id: save_table
+  #   description: Save as diagram.
+  #   input_from: frame_scanner
+  #   input_format: video_frame
+  #   input_queue_size: 10
+  #   tool: SaveTable
+  #   parameters:
+  #     todo: TODO
+  #   output_formats: None

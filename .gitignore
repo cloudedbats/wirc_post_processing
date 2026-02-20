@@ -1,0 +1,10 @@
+venv
+**/__pycache__
+build
+dist
+
+**/*.mp4
+wirc_recordings*
+wirc_target*
+video_target*
+wircpp_logging*

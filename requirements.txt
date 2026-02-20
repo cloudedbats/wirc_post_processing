@@ -1,0 +1,23 @@
+
+--prefer-binary
+
+#Video
+opencv-python
+pillow
+# # Audio.
+# sounddevice
+# soundfile
+# Calculations.
+python-dateutil
+# numpy
+# scipy
+# Config.
+pyyaml
+# Plotting.
+matplotlib
+scipy
+# VS Code.
+pylint
+black
+# Executables.
+pyinstaller
